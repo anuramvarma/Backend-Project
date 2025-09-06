@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- important for mobile -->
   <title>Login Page</title>
   <style>
     body {
@@ -9,57 +10,122 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
       background: #f2f2f2;
       font-family: Arial, sans-serif;
+      flex-direction: column;
+      padding: 10px;
     }
+
+    /* Marquee Banner */
+    .marquee-banner {
+      width: 100%;
+      background: linear-gradient(90deg, #4CAF50, #2e8b57);
+      color: #fff;
+      font-size: clamp(14px, 2.5vw, 18px); /* responsive font size */
+      font-weight: bold;
+      padding: 8px 0;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    marquee {
+      font-family: "Segoe UI", sans-serif;
+      letter-spacing: 0.5px;
+    }
+
+    /* Container */
     .container {
-      width: 350px;
-      padding: 30px;
+      width: 100%;
+      max-width: 360px;
+      padding: 25px;
       background: #fff;
       box-shadow: 0 0 15px rgba(0,0,0,0.2);
-      border-radius: 8px;
+      border-radius: 10px;
     }
+
     h2 {
       text-align: center;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      color: #333;
     }
+
+    /* Inputs */
     input[type="email"],
     input[type="password"] {
       width: 100%;
-      padding: 10px;
-      margin: 8px 0 15px 0;
+      padding: 12px;
+      margin: 10px 0;
       border: 1px solid #ccc;
-      border-radius: 4px;
+      border-radius: 6px;
+      font-size: 1rem;
+      box-sizing: border-box;
     }
+
+    /* Button */
     button {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       border: none;
       background: #4CAF50;
       color: #fff;
-      font-size: 16px;
-      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 6px;
       cursor: pointer;
+      transition: background 0.3s ease;
     }
     button:hover {
       background: #45a049;
     }
-    .signup-link, .forgot-link {
+
+    /* Links */
+    .forgot-link {
       text-align: center;
-      margin-top: 15px;
+      margin-top: 12px;
+      font-size: 0.9rem;
     }
     .forgot-link a {
       text-decoration: none;
       color: #007BFF;
+      transition: color 0.3s ease;
     }
     .forgot-link a:hover {
       text-decoration: underline;
+      color: #0056b3;
+    }
+
+    /* Mobile-friendly tweaks */
+    @media (max-width: 480px) {
+      body {
+        padding: 15px;
+      }
+      .container {
+        padding: 20px;
+      }
+      h2 {
+        font-size: 1.3rem;
+      }
+      button {
+        font-size: 0.95rem;
+        padding: 10px;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Marquee Banner -->
+  <div class="marquee-banner">
+    <marquee behavior="scroll" direction="left" scrollamount="6">
+      🚀 After successful login, you will be redirected to <b>GitHub Hunt</b> — Explore, Discover, and Connect with Developers Worldwide 🌍
+    </marquee>
+  </div>
+
+  <!-- Login Box -->
   <div class="container">
-    <h2>Login </h2>
+    <h2>Login</h2>
     <form action="/loginSubmit" method="post">
       <input type="email" name="email" placeholder="Email" required>
       <input type="password" name="password" placeholder="Password" required>
@@ -67,13 +133,5 @@
     </form>
     <p class="forgot-link"><a href="forgot.html">Forgot Password?</a></p>
   </div>
-
-  <script>
-   function triggerLoginAlert() {
-      fetch('/loginSubmit', {
-        method: "POST"
-      }).then(response => console.log(response));
-    }
-  </script>
 </body>
 </html>
