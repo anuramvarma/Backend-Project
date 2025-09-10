@@ -11,9 +11,8 @@ async function testEmail() {
   if (configValid) {
     console.log('✅ Email configuration is valid\n');
     
-    // Test sending a welcome email
     console.log('📧 Testing welcome email...');
-    const testEmail = 'test@example.com'; // Replace with your test email
+    const testEmail = 'test@example.com'; 
     const testName = 'Test User';
     
     const result = await sendWelcomeEmail(testEmail, testName);

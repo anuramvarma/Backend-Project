@@ -71,14 +71,13 @@ app.post("/signupSubmit", async (req, res) => {
       Password: hashedPassword,
     });
 
-    // Send welcome email
+    // Sendinng welcome email
     const emailResult = await sendWelcomeEmail(email, name);
     
     if (emailResult.success) {
       console.log(`Welcome email sent successfully to ${email}`);
     } else {
       console.error(`Failed to send welcome email to ${email}:`, emailResult.error);
-      // Don't fail the registration if email fails, just log the error
     }
 
     res.redirect("/login");
