@@ -1,7 +1,9 @@
+require('dotenv').config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const { sendWelcomeEmail, verifyEmailConfig } = require("./emailService");
 
 async function Mongoose() {
   try {
@@ -17,6 +19,9 @@ async function Mongoose() {
   }
 }
 Mongoose();
+
+// Verify email configuration on startup
+verifyEmailConfig();
 //schema
 const userSchema = new mongoose.Schema({
   Name: String,
@@ -44,25 +49,48 @@ app.get("/signup", (req, res) => {
 });
 
 app.post("/signupSubmit", async (req, res) => {
-  const { name, email, password } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const check = await user.findOne({ Email: email });
+  try {
+    const { name, email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const check = await user.findOne({ Email: email });
 
-  if (check) {
+    if (check) {
+      res.send(`
+        <script>
+          alert("Email already Existed with us !");
+          window.location.href = "/login";
+        </script>
+      `);
+      return;
+    }
+
+    // Create new user
+    const newUser = await user.create({
+      Name: name,
+      Email: email,
+      Password: hashedPassword,
+    });
+
+    // Send welcome email
+    const emailResult = await sendWelcomeEmail(email, name);
+    
+    if (emailResult.success) {
+      console.log(`Welcome email sent successfully to ${email}`);
+    } else {
+      console.error(`Failed to send welcome email to ${email}:`, emailResult.error);
+      // Don't fail the registration if email fails, just log the error
+    }
+
+    res.redirect("/login");
+  } catch (error) {
+    console.error("Error in signup process:", error);
     res.send(`
       <script>
-        alert("Email already Existed with us !");
-        window.location.href = "/login";
+        alert("An error occurred during registration. Please try again.");
+        window.location.href = "/signup";
       </script>
     `);
   }
-  await user.create({
-    Name: name,
-    Email: email,
-    Password: hashedPassword,
-  });
-
-  res.redirect("/login");
 });
 
 app.post("/loginSubmit", async (req, res) => {
@@ -96,7 +124,7 @@ app.post("/forgot", async (req, res) => {
     res.send(`
       <script>
         alert("Your email is not found with us.");
-        window.location.href = "/forgot";
+        window.location.href = "/signup";
       </script>
     `);
   }
