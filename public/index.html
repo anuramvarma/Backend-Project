@@ -10,6 +10,7 @@
       padding: 0;
       height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       background: linear-gradient(135deg, #74ebd5, #ACB6E5);
@@ -37,11 +38,23 @@
     }
 
     .home-container h1 {
-      margin-bottom: 40px;
+      margin-bottom: 25px;
       font-size: 34px;
       color: #222;
       letter-spacing: 1px;
       font-weight: 600;
+    }
+
+    marquee {
+      display: block;
+      padding: 10px;
+      margin-bottom: 30px;
+      font-size: 16px;
+      font-weight: 500;
+      color: #fff;
+      background: linear-gradient(135deg, #ff6a00, #ee0979);
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
     }
 
     .btn {
@@ -85,19 +98,36 @@
     .signup-btn:hover {
       background: linear-gradient(135deg, #0069d9, #3a9ef7);
     }
+
+    footer {
+      margin-top: auto;
+      width: 100%;
+      padding: 15px 0;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+    }
   </style>
 </head>
 <body>
 
   <div class="home-container">
     <h1>Welcome to My Project</h1>
-       <marquee behavior="scroll" direction="left" scrollamount="6">
+    <marquee behavior="scroll" direction="left" scrollamount="8">
       🚀 Database has been refreshed, Please Signup Again !
     </marquee>
     <a href="/login" class="btn login-btn">Login</a>
     <a href="/signup" class="btn signup-btn">Sign Up</a>
   </div>
 
+  <footer>
+    <p>Version 1.0 © Anuram Varma</p>
+  </footer>
+
 </body>
 </html>
-
